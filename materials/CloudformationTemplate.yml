@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: VPC,SUBNET,Security group
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.192.0.0/16"
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: sulav
+        - Key: Creator
+          Value: sulav.adk.7@gmail.com
+        - Key: Deleteable
+          Value: Yes
+        - Key: Project
+          Value: Intern
+
+  sulavSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: us-east-1a
+      CidrBlock: "10.192.10.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: Sulav-Subnet-1
+        - Key: Creator
+          Value: sulav.adk.7@gmail.com
+        - Key: Deleteable
+          Value: Yes
+        - Key: Project
+          Value: Intern
+
+  sulavSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group for PublicSubnet1
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 10.192.0.0/16 # Allow HTTP traffic from anywhere
+      Tags:
+        - Key: Name
+          Value: SecurityGroup
+        - Key: Creator
+          Value: sulav.adk.7@gmail.com
+        - Key: Deleteable
+          Value: Yes
+        - Key: Project
+          Value: Intern
+
+Outputs:
+  VpcId:
+    Value: !Ref VPC
+    Description: VPC ID
+  PublicSubnet1Id:
+    Value: !Ref sulavSubnet1
+
+  PublicSubnet1SecurityGroupId:
+    Value: !Ref sulavSecurityGroup
+
+
